@@ -1,20 +1,43 @@
 const html = document.querySelector('html');
-const focoBtn = document.querySelector('.app__card-button--foco');
-const descansoCurtoBtn = document.querySelector('.app__card-button--curto');
-const descansoLongoBtn = document.querySelector('.app__card-button--longo');
 const imagemBanner = document.querySelector('.app__image');
+const botoes = document.querySelectorAll('button:not(#start-pause)');
+const titulo = document.querySelector('.app__title');
 
-focoBtn.addEventListener('click', () => {
-    html.setAttribute('data-contexto', 'foco');
-    imagemBanner.setAttribute('src', '/imagens/foco.png');
+botoes.forEach(botao => {
+    botao.addEventListener('click', (e) => {
+        alterarContexto(e.target.getAttribute('data-contexto'));
+    });
 });
 
-descansoCurtoBtn.addEventListener('click', () => {
-    html.setAttribute('data-contexto', 'descanso-curto');
-    imagemBanner.setAttribute('src', '/imagens/descanso-curto.png');
-});
-
-descansoLongoBtn.addEventListener('click', () => {
-    html.setAttribute('data-contexto', 'descanso-longo');
-    imagemBanner.setAttribute('src', '/imagens/descanso-longo.png');
-});
+function alterarContexto(contexto)
+{
+    html.setAttribute('data-contexto', contexto);
+    imagemBanner.setAttribute('src', `/imagens/${contexto}.png`);
+    switch (contexto)
+    {
+        case "foco":
+            titulo.innerHTML = `
+                Otimize sua produtividade,<br>
+                <strong class="app__title-strong">mergulhe no que importa.</strong>
+            `;
+            break;
+        case "descanso-curto":
+            titulo.innerHTML = `
+                Que tal dar uma respirada?<br>
+                <strong class="app__title-strong">Faça uma pausa curta!</strong>
+            `;
+            break;
+        case "descanso-longo":
+            titulo.innerHTML = `
+                Hora de voltar à superfície.<br>
+                <strong class="app__title-strong">Faça uma pausa longa.</strong>
+            `;
+            break;
+        default:
+            titulo.innerHTML = `
+                Otimize sua produtividade,<br>
+                <strong class="app__title-strong">mergulhe no que importa.</strong>
+            `;
+            break;
+    }
+}
