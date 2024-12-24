@@ -2,6 +2,9 @@ const html = document.querySelector('html');
 const imagemBanner = document.querySelector('.app__image');
 const botoes = document.querySelectorAll('button:not(#start-pause)');
 const titulo = document.querySelector('.app__title');
+const inputMusica = document.querySelector('.toggle-checkbox');
+const musica = new Audio('/sons/luna-rise-part-one.mp3');
+musica.loop = true;
 
 botoes.forEach(botao => {
     botao.addEventListener('click', (e) => {
@@ -43,3 +46,7 @@ function alterarContexto(contexto)
             break;
     }
 }
+
+inputMusica.addEventListener('change', () => {
+    musica.paused ? musica.play() : musica.pause();
+});
