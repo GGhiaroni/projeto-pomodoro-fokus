@@ -1,9 +1,10 @@
 const html = document.querySelector('html');
 const imagemBanner = document.querySelector('.app__image');
-const botoes = document.querySelectorAll('button:not(#start-pause)');
+const botoes = document.querySelectorAll('button:not(#start-pause):not(#botao-reiniciar)');
 const titulo = document.querySelector('.app__title');
 const inputMusica = document.querySelector('.toggle-checkbox');
 const botaoComecar = document.getElementById('start-pause');
+const botaoReiniciar = document.getElementById('botao-reiniciar');
 const imagemBotaoComecar = document.querySelector('.app__card-primary-butto-icon');
 const textoBotaoComecar = document.getElementById('texto-botao');
 const musica = new Audio('/sons/luna-rise-part-one.mp3');
@@ -33,6 +34,13 @@ function alterarContexto(contexto)
 {
     html.setAttribute('data-contexto', contexto);
     imagemBanner.setAttribute('src', `/imagens/${contexto}.png`);
+
+    zerar();
+    
+    botaoComecar.classList.remove('ativo');
+    imagemBotaoComecar.setAttribute('src', '/imagens/play_arrow.png');
+    textoBotaoComecar.textContent = 'Iniciar';
+
     switch (contexto)
     {
         case "foco":
@@ -116,6 +124,7 @@ function zerar()
 {
     clearInterval(intervaloId);
     intervaloId = null;
+    mostrarTempo(tempoDecorrido);
 }
 
 function mostrarTempo(tempoEmSegundos = tempoDecorrido)
@@ -125,5 +134,33 @@ function mostrarTempo(tempoEmSegundos = tempoDecorrido)
     const tempoFormatado = `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
     tempoNaTela.innerHTML = tempoFormatado;
 }
+
+botaoReiniciar.addEventListener('click', () => { 
+    const contextoAtivo = html.getAttribute('data-contexto');
+    
+    // Reinicia o tempo conforme o contexto ativo
+    switch (contextoAtivo) {
+        case 'foco':
+            tempoDecorrido = 1500; // 25 minutos
+            break;
+        case 'descanso-curto':
+            tempoDecorrido = 300; // 5 minutos
+            break;
+        case 'descanso-longo':
+            tempoDecorrido = 900; // 15 minutos
+            break;
+        default:
+            tempoDecorrido = 0;
+            break;
+    }
+    mostrarTempo(tempoDecorrido); // Atualiza o timer na tela
+    zerar();
+    
+    // Garante que o botão "Iniciar" é mostrado ao reiniciar
+    botaoComecar.classList.remove('ativo');
+    imagemBotaoComecar.setAttribute('src', '/imagens/play_arrow.png');
+    textoBotaoComecar.textContent = 'Iniciar';
+});
+
 
 mostrarTempo();
