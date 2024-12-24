@@ -5,6 +5,8 @@ const titulo = document.querySelector('.app__title');
 
 botoes.forEach(botao => {
     botao.addEventListener('click', (e) => {
+        botoes.forEach(botao => botao.classList.remove('active'));
+        e.target.classList.add('active');
         alterarContexto(e.target.getAttribute('data-contexto'));
     });
 });
