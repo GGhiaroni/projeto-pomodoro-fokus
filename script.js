@@ -36,7 +36,7 @@ function alterarContexto(contexto)
     imagemBanner.setAttribute('src', `/imagens/${contexto}.png`);
 
     zerar();
-    
+
     botaoComecar.classList.remove('ativo');
     imagemBotaoComecar.setAttribute('src', '/imagens/play_arrow.png');
     textoBotaoComecar.textContent = 'Iniciar';
@@ -138,25 +138,23 @@ function mostrarTempo(tempoEmSegundos = tempoDecorrido)
 botaoReiniciar.addEventListener('click', () => { 
     const contextoAtivo = html.getAttribute('data-contexto');
     
-    // Reinicia o tempo conforme o contexto ativo
     switch (contextoAtivo) {
         case 'foco':
-            tempoDecorrido = 1500; // 25 minutos
+            tempoDecorrido = 1500;
             break;
         case 'descanso-curto':
-            tempoDecorrido = 300; // 5 minutos
+            tempoDecorrido = 300;
             break;
         case 'descanso-longo':
-            tempoDecorrido = 900; // 15 minutos
+            tempoDecorrido = 900;
             break;
         default:
             tempoDecorrido = 0;
             break;
     }
-    mostrarTempo(tempoDecorrido); // Atualiza o timer na tela
+    mostrarTempo(tempoDecorrido);
     zerar();
     
-    // Garante que o botão "Iniciar" é mostrado ao reiniciar
     botaoComecar.classList.remove('ativo');
     imagemBotaoComecar.setAttribute('src', '/imagens/play_arrow.png');
     textoBotaoComecar.textContent = 'Iniciar';
