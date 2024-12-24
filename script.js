@@ -10,6 +10,7 @@ const musica = new Audio('/sons/luna-rise-part-one.mp3');
 const somBotaoPlay = new Audio('/sons/play.wav');
 const somBotaoPause = new Audio('/sons/pause.mp3');
 const somTarefaTerminada = new Audio('sons/beep.mp3');
+const tempoNaTela = document.querySelector('#timer');
 
 musica.loop = true;
 somBotaoPlay.volume = 0.3;
@@ -17,7 +18,7 @@ somBotaoPause.volume = 0.2;
 somTarefaTerminada.volume = 0.1;
 
 
-let tempoDecorrido = 5;
+let tempoDecorrido = 1500;
 let intervaloId = null;
 
 botoes.forEach(botao => {
@@ -39,26 +40,31 @@ function alterarContexto(contexto)
                 Otimize sua produtividade,<br>
                 <strong class="app__title-strong">mergulhe no que importa.</strong>
             `;
+            tempoDecorrido = 1500;
             break;
         case "descanso-curto":
             titulo.innerHTML = `
                 Que tal dar uma respirada?<br>
                 <strong class="app__title-strong">Faça uma pausa curta!</strong>
             `;
+            tempoDecorrido = 300;
             break;
         case "descanso-longo":
             titulo.innerHTML = `
                 Hora de voltar à superfície.<br>
                 <strong class="app__title-strong">Faça uma pausa longa.</strong>
             `;
+            tempoDecorrido = 900;
             break;
         default:
             titulo.innerHTML = `
                 Otimize sua produtividade,<br>
                 <strong class="app__title-strong">mergulhe no que importa.</strong>
             `;
+            tempoDecorrido = 0;
             break;
     }
+    mostrarTempo(tempoDecorrido);
 }
 
 inputMusica.addEventListener('change', () => {
@@ -74,7 +80,7 @@ const contagemRegressiva = () => {
         return;
     }
     tempoDecorrido -= 1;
-    console.log("Temporizador: " + tempoDecorrido);
+    mostrarTempo();
  };
 
 botaoComecar.addEventListener('click', () => {
@@ -96,7 +102,6 @@ function alterarIconeBotao() {
     }
 }
 
-
 function iniciarOuPausar()
 {
     if (intervaloId)
@@ -112,3 +117,13 @@ function zerar()
     clearInterval(intervaloId);
     intervaloId = null;
 }
+
+function mostrarTempo(tempoEmSegundos = tempoDecorrido)
+{
+    const minutos = Math.floor(tempoEmSegundos / 60);
+    const segundos = tempoEmSegundos % 60;
+    const tempoFormatado = `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
+    tempoNaTela.innerHTML = tempoFormatado;
+}
+
+mostrarTempo();
