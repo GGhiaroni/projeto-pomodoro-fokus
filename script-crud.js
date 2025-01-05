@@ -37,6 +37,26 @@ function criarTarefa(tarefa)
     paragrafo.textContent = tarefa.descricao;
     paragrafo.classList.add('app__section-task-list-item-description');
 
+
+    const botaoExcluir = document.createElement('button');
+    botaoExcluir.classList.add('app_button-edit');
+
+    const imagemBotaoExcluir = document.createElement('img');
+    imagemBotaoExcluir.setAttribute('src', '/imagens/trash.png');
+    
+    botaoExcluir.append(imagemBotaoExcluir);
+
+    botaoExcluir.onclick = () => {
+        const indexTarefaEncontrada = tarefas.findIndex(t => t === tarefa);
+
+        if (indexTarefaEncontrada !== -1)
+        {
+            tarefas.splice(indexTarefaEncontrada, 1);
+            atualizarTarefas();
+            atualizarDOM();
+        }
+    };
+
     const botao = document.createElement('button');
     botao.classList.add('app_button-edit');
 
@@ -86,6 +106,7 @@ function criarTarefa(tarefa)
     li.append(svg);
     li.append(paragrafo);
     li.append(botao);
+    li.append(botaoExcluir);
 
     li.onclick = () => {
         if (tarefaSelecionada == tarefa)
