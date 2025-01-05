@@ -10,6 +10,11 @@ const tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
 let tarefaSelecionada = null;
 let liTarefaSelecionada = null;
 
+function ordernarTarefas()
+{
+    tarefas.sort((a, b) => (a.completa - b.completa));
+}
+
 function atualizarTarefas()
 {
     localStorage.setItem('tarefas', JSON.stringify(tarefas));
@@ -73,9 +78,10 @@ function criarTarefa(tarefa)
         ulTarefas.insertBefore(li, ulTarefas.firstChild);
     }
 
+    ordernarTarefas();
     atualizarTarefas();
+    atualizarDOM();
 };
-
 
     li.append(svg);
     li.append(paragrafo);
@@ -105,41 +111,54 @@ botaoAdicionarTarefa.addEventListener('click', () => {
     formAdicionarTarefa.setAttribute('aria-hidden', isHidden.toString());
 });
 
+textArea.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        formAdicionarTarefa.requestSubmit();
+    }
+});
+    
 formAdicionarTarefa.addEventListener('submit', (e) => {
     e.preventDefault();
+    
     const tarefa = {
         descricao: textArea.value,
         completa: false
     };
     tarefas.push(tarefa);
-    const tarefaCriada = criarTarefa(tarefa);
-    ulTarefas.append(tarefaCriada);
+
+    ordernarTarefas();
     atualizarTarefas();
+    atualizarDOM();
+
     textArea.value = '';
     formAdicionarTarefa.classList.add('hidden');
+
 });
 
-tarefas.sort((a, b) => a.completa - b.completa);
+function atualizarDOM() {
+    ulTarefas.innerHTML = ''; // Limpa a lista
 
-tarefas.forEach(tarefa => {
-    const elementoTarefa = criarTarefa(tarefa);
+    tarefas.forEach(tarefa => {
+        const elementoTarefa = criarTarefa(tarefa);
 
-    if (tarefa.completa)
-    {
-        const svg = elementoTarefa.querySelector('svg');
-        const paragrafo = elementoTarefa.querySelector('.app__section-task-list-item-description');
-        
-        svg.classList.add('app__section-task-list-item-complete');
-        elementoTarefa.classList.add('app__section-task-list-item-complete');
-        elementoTarefa.style.textDecoration = 'line-through';
-        elementoTarefa.style.color = 'gray';
-    }
+        if (tarefa.completa) {
+            const svg = elementoTarefa.querySelector('svg');
+            svg.classList.add('app__section-task-list-item-complete');
+            elementoTarefa.classList.add('app__section-task-list-item-complete');
+            elementoTarefa.style.textDecoration = 'line-through';
+            elementoTarefa.style.color = 'gray';
+        }
 
-    ulTarefas.append(elementoTarefa);
-});
+        ulTarefas.appendChild(elementoTarefa);
+    });
+}
 
 botaoCancelar.addEventListener('click', () => {
     textArea.value = '';
     botaoAdicionarTarefa.focus();
     formAdicionarTarefa.classList.add('hidden');
 });
+
+ordernarTarefas();
+atualizarDOM();
