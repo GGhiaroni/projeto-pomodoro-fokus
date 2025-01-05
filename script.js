@@ -84,12 +84,6 @@ const contagemRegressiva = () => {
     {
         somTarefaTerminada.play();
         alert("Sessão finalizada!");
-        const focoAtivo = html.getAttribute('data-contexto') == ('foco');
-        if (focoAtivo)
-        {
-            const eventoPersonalizado = new CustomEvent('FocoFinalizado');
-            document.dispatchEvent(eventoPersonalizado);
-        }
         zerar();
         return;
     }
