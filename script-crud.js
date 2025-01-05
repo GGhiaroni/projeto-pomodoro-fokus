@@ -52,20 +52,30 @@ function criarTarefa(tarefa)
     botao.append(imagemButton);
 
     svg.onclick = () => {
-        const isComplete = svg.classList.toggle('app__section-task-list-item-complete');
+    const isComplete = svg.classList.toggle('app__section-task-list-item-complete');
 
-        if (isComplete) {
-            li.classList.add('app__section-task-list-item-complete');
-            li.classList.remove('app__section-task-list-item-active');
-            li.style.textDecoration = 'line-through';
-            li.style.color = '#000';
-        } else {
-            li.classList.remove('app__section-task-list-item-complete');
-            li.classList.add('app__section-task-list-item-active');
-            li.style.textDecoration = 'none';
-            li.style.color = 'none';
-        }
-    };
+    if (isComplete) {
+        li.classList.add('app__section-task-list-item-complete');
+        li.classList.remove('app__section-task-list-item-active');
+        li.style.textDecoration = 'line-through';
+        li.style.color = 'gray';
+        tarefa.completa = true;
+
+        ulTarefas.appendChild(li);
+
+    } else {
+        li.classList.remove('app__section-task-list-item-complete');
+        li.classList.add('app__section-task-list-item-active');
+        li.style.textDecoration = 'none';
+        li.style.color = '';
+        tarefa.completa = false;
+
+        ulTarefas.insertBefore(li, ulTarefas.firstChild);
+    }
+
+    atualizarTarefas();
+};
+
 
     li.append(svg);
     li.append(paragrafo);
@@ -98,7 +108,8 @@ botaoAdicionarTarefa.addEventListener('click', () => {
 formAdicionarTarefa.addEventListener('submit', (e) => {
     e.preventDefault();
     const tarefa = {
-        descricao: textArea.value
+        descricao: textArea.value,
+        completa: false
     };
     tarefas.push(tarefa);
     const tarefaCriada = criarTarefa(tarefa);
@@ -108,8 +119,22 @@ formAdicionarTarefa.addEventListener('submit', (e) => {
     formAdicionarTarefa.classList.add('hidden');
 });
 
+tarefas.sort((a, b) => a.completa - b.completa);
+
 tarefas.forEach(tarefa => {
     const elementoTarefa = criarTarefa(tarefa);
+
+    if (tarefa.completa)
+    {
+        const svg = elementoTarefa.querySelector('svg');
+        const paragrafo = elementoTarefa.querySelector('.app__section-task-list-item-description');
+        
+        svg.classList.add('app__section-task-list-item-complete');
+        elementoTarefa.classList.add('app__section-task-list-item-complete');
+        elementoTarefa.style.textDecoration = 'line-through';
+        elementoTarefa.style.color = 'gray';
+    }
+
     ulTarefas.append(elementoTarefa);
 });
 
