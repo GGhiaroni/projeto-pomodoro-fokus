@@ -1,6 +1,6 @@
 const html = document.querySelector('html');
 const imagemBanner = document.querySelector('.app__image');
-const botoes = document.querySelectorAll('button:not(#start-pause):not(.app__form-footer__button):not(.app__button--add-task):not(#botao-reiniciar)');
+const botoes = document.querySelectorAll('button:not(#start-pause):not(.app__form-footer__button):not(.app__button--add-task):not(#botao-reiniciar):not(#btn-remover-concluidas):not(#btn-remover-todas):not(#botao-mais-opcoes)');
 const titulo = document.querySelector('.app__title');
 const inputMusica = document.querySelector('.toggle-checkbox');
 const botaoComecar = document.getElementById('start-pause');
