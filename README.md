@@ -3,6 +3,9 @@
 Fokus é uma aplicação baseada na técnica **Pomodoro** que visa ajudar você a se concentrar nas tarefas importantes e a otimizar seu tempo. Através de contagens regressivas com sessões de foco e pausas, você pode melhorar sua produtividade e manter o equilíbrio entre trabalho e descanso.
 <br>
 
+### Acesse o projeto completo em:
+https://projeto-pomodoro-fokus.vercel.app/
+
 ## Funcionalidades ✨
 
 - **Timer Pomodoro**: Alterna entre sessões de **Foco** e **Pausas** (curtas e longas).
@@ -96,6 +99,8 @@ O **CRUD (Create, Read, Update, Delete)** foi implementado no projeto para geren
 
 
 
+## Acesse o projeto completo em:
+https://projeto-pomodoro-fokus.vercel.app/
 
 
 
